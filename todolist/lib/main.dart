@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todolist/pages/home_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Garante que os bindings do Flutter estão inicializados antes de qualquer operação
+  await Hive.initFlutter(); // Inicializa o Hive 
+  await Hive.openBox('dataBox'); // Abre ou cria (caso não exista) uma "box" para armazenamento de dados
+
   runApp(const ToDoList());
 }
-
-// stateless widget -> estático e imutável
-// stateful widget -> permite mutação de estado
 
 class ToDoList extends StatelessWidget {
   const ToDoList({super.key});
@@ -14,8 +16,8 @@ class ToDoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      debugShowCheckedModeBanner: false, // Para não mostrar a faixa "debug"
+      home: HomePage(), // Define HomePage como a tela inicial do app
     );
   }
 }
